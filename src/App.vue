@@ -1,20 +1,22 @@
 <template>
-  导航页面
-  <div>
-    <router-link to="/">jimmy</router-link>
-    <router-link to="/xx">coco</router-link>
-  </div>
-  <hr/>
-  <router-view>
-    
-  </router-view>
+  <router-view />
 </template>
 
-<script>
+<script lang="ts">
+import { ref, provide } from "vue";
+import { router } from "./router";
 
 export default {
-  name: 'App',
-  components: {
-  }
-}
+  name: "App",
+  setup() {
+    const width = document.documentElement.clientWidth;
+    const menuVisible = ref(width <= 500 ? false : true);
+    provide("menuVisible", menuVisible); // set
+    router.afterEach(() => {
+      if (width <= 500) {
+        menuVisible.value = false;
+      }
+    });
+  },
+};
 </script>
